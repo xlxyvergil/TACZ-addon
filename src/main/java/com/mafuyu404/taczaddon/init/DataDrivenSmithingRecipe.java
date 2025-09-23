@@ -15,17 +15,31 @@ import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataDrivenSmithingRecipe implements SmithingRecipe {
     private final ResourceLocation id;
     private final Ingredient template;
     private final Ingredient base;
     private final Ingredient addition;
+    private final List<ResourceLocation> additionalItems;
 
-    public DataDrivenSmithingRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition) {
+    public DataDrivenSmithingRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition, List<ResourceLocation> additionalItems) {
         this.id = id;
         this.template = template;
         this.base = base;
         this.addition = addition;
+        this.additionalItems = additionalItems;
+
+        List<String> keyList = new ArrayList<>();
+        for (ResourceLocation additionalItem : additionalItems) {
+            keyList.add(additionalItem.toString());
+        }
+        for (ItemStack item : addition.getItems()) {
+            String itemId = GunSmithingManager.getItemRegistryName(item.getItem());
+            if (itemId != null) GunSmithingManager.putCache(itemId, keyList);
+        }
     }
 
     @Override
@@ -50,9 +64,16 @@ public class DataDrivenSmithingRecipe implements SmithingRecipe {
             itemList = new ListTag();
         }
 
-        // 添加物品A的ID到列表
-        ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(additionItem.getItem());
-        if (!itemList.contains(StringTag.valueOf(itemId.toString()))) itemList.add(StringTag.valueOf(itemId.toString()));
+        // 添加addition物品的ID到列表
+        ResourceLocation additionItemId = ForgeRegistries.ITEMS.getKey(additionItem.getItem());
+        if (!itemList.contains(StringTag.valueOf(additionItemId.toString()))) {
+            itemList.add(StringTag.valueOf(additionItemId.toString()));
+        }
+
+        // 添加配方中定义的额外物品ID到列表
+//        for (ResourceLocation itemId : additionalItems) {
+//            itemList.add(StringTag.valueOf(itemId.toString()));
+//        }
 
         // 保存回NBT
         nbt.put("CombinedItems", itemList);
@@ -116,5 +137,9 @@ public class DataDrivenSmithingRecipe implements SmithingRecipe {
 
     public Ingredient getAddition() {
         return addition;
+    }
+
+    public List<ResourceLocation> getAdditionalItems() {
+        return additionalItems;
     }
 }

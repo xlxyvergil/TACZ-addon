@@ -178,7 +178,7 @@ public abstract class GunSmithTableScreenMixin extends AbstractContainerScreen<G
 
     private void refreshRecipes(int index) {
         tACZ_addon$selectedAttachmentPropIndex = tACZ_addon$dropdown.getSelected();
-//        this.updateIngredientCount();
+        this.updateIngredientCount();
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))

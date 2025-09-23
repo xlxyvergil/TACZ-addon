@@ -25,6 +25,7 @@ public class Config {
     public static final ForgeConfigSpec.ConfigValue<Integer> GUNSMITHTABLE_MASS_CRAFT_TIME;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> MELEE_WEAPON_LIST;
     public static final ForgeConfigSpec.ConfigValue<Boolean> FAST_SWAP_GUN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOW_ITEM_RELATION;
 
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
@@ -76,6 +77,9 @@ public class Config {
                 .comment("开启后，切枪将没有后摇。")
                 .define("enableFastSwapGun", true);
         BUILDER.pop();
+        SHOW_ITEM_RELATION = BUILDER
+                .comment("开启后，将在鼠标移动到物品上时高亮显示有关联的其它物品。")
+                .define("enableShowItemRelation", true);
 
         SPEC = BUILDER.build();
     }

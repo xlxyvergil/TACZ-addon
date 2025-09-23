@@ -26,6 +26,7 @@ public class VirtualInventory extends Inventory {
         for (int i = 0; i < this.playerInventorySize; i++) {
             this.setItem(i, playerInventory.getItem(i));
         }
+        this.selected = playerInventory.selected;
         return this;
     }
     public ItemHandler getHandler() {

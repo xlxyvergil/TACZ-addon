@@ -62,7 +62,7 @@ public class ContainerPositionPacket {
 //            items.addAll(inventoryBackpack);
 
             NetworkHandler.sendToClient(player, new ContainerReaderPacket(items));
-            NetworkHandler.sendToClient(player, new ContainerReaderPacket(items));
+//            NetworkHandler.sendToClient(player, new ContainerReaderPacket(items));
         });
         ctx.get().setPacketHandled(true);
     }

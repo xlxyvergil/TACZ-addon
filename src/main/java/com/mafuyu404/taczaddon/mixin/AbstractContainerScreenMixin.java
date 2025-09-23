@@ -1,5 +1,6 @@
 package com.mafuyu404.taczaddon.mixin;
 
+import com.mafuyu404.taczaddon.init.Config;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tacz.guns.api.item.IAmmo;
 import com.tacz.guns.api.item.IGun;
@@ -34,6 +35,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "renderSlot", at = @At("RETURN"))
     private void onRender(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
+        if (!Config.SHOW_ITEM_RELATION.get()) return;
         if (this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
             ItemStack hoverItem = this.hoveredSlot.getItem();
             ItemStack currentItem = slot.getItem();
